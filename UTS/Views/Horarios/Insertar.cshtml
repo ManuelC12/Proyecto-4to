@@ -1,0 +1,44 @@
+﻿@model horario_agendaModel;
+@{
+    ViewData["Title"] = "Insertar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+<div class="card col-8">
+    <div class="card-header">
+    Insertar
+    </div>
+
+<form asp-action="Insertar" asp-asp-controller="Horarios" method="post">
+    <div class="card-body justify-content-center">
+
+        <div class="col-md-4 mb-3">
+            <label>Identificador del aula</label><br />
+            <input type="text" asp-for="idaula2" class="from-control" />
+            <span asp-validation-for="idaula2"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Hora</label><br />
+            <input type="text" asp-for="hora" class="from-control" />
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Dia</label><br />
+            <input type="text" asp-for="dia" class="from-control" />
+            <span asp-validation-for="dia"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Mes</label><br />
+            <input type="text" asp-for="mes" class="from-control" />
+            <span asp-validation-for="mes"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Año</label><br />
+            <input type="text" asp-for="years" class="from-control" />
+        </div>
+        <div class="col-md-4 mb-3">
+        <button type="submit" class="btn btn-primary mb-3 btn-sm">Apartar</button><br />
+        <a asp-action="Listar" asp-controller="Horarios" class="btn btn-warning btn-sm">Volver a la lista</a>
+        </div>
+    </div>
+</form>
+</div>

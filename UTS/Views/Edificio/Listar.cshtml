@@ -1,0 +1,37 @@
+﻿@model List<EdificioModel>;
+@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card cool-8">
+    <div class="card-header">
+        <h1>Lista de Edificio</h1>
+    </div>
+    <div class="card-body">
+        <a asp-action="Insertar" asp-controller="Edificio" class="btn btn-primary btn-sm">Agregar Nuevo Edificio</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Numero de Edificio</th>
+                    <th>Capacidad de aulas</th>
+                    <th>Encargado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem=>item.numedificio)</td>
+                        <td>@Html.DisplayFor(modelItem=>item.cantaula)</td>
+                        <td>@Html.DisplayFor(modelItem=>item.encargado)</td>
+                        <td>
+                            <a asp-action="Editar" asp-controller="Edificio" asp-route-numedificio="@item.numedificio" class="btn btn-warning btn-sm"> Editar</a>
+                            <a asp-action="Eliminar" asp-controller="Edificio" asp-route-numedificio="@item.numedificio" class="btn btn-danger btn-sm"> Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

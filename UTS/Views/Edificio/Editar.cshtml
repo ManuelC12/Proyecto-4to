@@ -1,0 +1,32 @@
+﻿@model EdificioModel;
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card col-8">
+    <div class="card-header">
+        <h1>Editar Edificio</h1>
+    </div>
+    <div class="card-body justify-content-center">
+        <form asp-action="Editar" asp-controller="Edificio" method="post">
+            <input asp-for="numedificio" type="hidden" class="form-control" />
+            <div>
+                <label for="staticEmail2">Numero del edificio</label>
+                <input type="text" asp-for="numedificio" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="staticEmail2">Cantidad de aulas</label>
+                <input type="text" asp-for="cantaula" class="form-control" />
+            </div>
+            <div>
+                <label for="staticEmail2">Encargado del edificio</label>
+                <input type="text" asp-for="encargado" class="form-control" />
+                <span asp-validation-for="encargado" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button type="submit" class="btn btn-primary mb-3 btn-sm">Guardar</button> <br />
+                <a asp-action="Listar" asp-controller="Edificio" class="btn btn-warning btn-sm"> Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>

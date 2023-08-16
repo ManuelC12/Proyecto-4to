@@ -1,0 +1,23 @@
+﻿@model EdificioModel;
+@{
+    ViewData["Title"] = "Eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card col-8">
+    <div class="card-header">
+        <h1>Eliminar Edificio</h1>
+    </div>
+    <div class="card-body justify-content-center">
+        <form asp-action="Eliminar" asp-controller="Edificio" method="post">
+            <input asp-for="numedificio" type="hidden" class="form-control" />
+            <div class="alert alert-danger" role="alert">
+                ¿Desea Eliminar este edeficio: @Html.DisplayTextFor(m=>m.encargado)?
+            </div>
+            <div class="col-md-4 -mb-3">
+                <button type="submit" class="btn btn-danger mb-3 btn-sm">Eliminar</button> <br />
+                <a asp-action="Listar" asp-controller="Edificio" class="btn btn-warning btn-sm">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>

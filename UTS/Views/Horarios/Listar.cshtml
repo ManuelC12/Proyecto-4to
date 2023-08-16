@@ -1,0 +1,45 @@
+﻿@model List<horario_agendaModel>;
+@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card col-8">
+    <div class="card-header">
+        Lista de apartados
+    </div>
+</div>
+<div class="card-body">
+    <a asp-action="Insertar" asp-controller="Horarios" class="btn btn-primary btn-sm">Crear Nuevo</a>
+    <table class="table table-striped bg-white">
+        <thead>
+            <tr>
+                <th>Identificador del aula</th>
+                <th>Dia</th>
+                <th>Mes</th>
+                <th>Año</th>
+                <th>Hora</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+              <tr>
+                <td>@item.idaula2</td>
+                <td>@item.hora</td>
+                <td>@item.dia</td>
+                <td>@item.mes</td>
+                <td>@item.years</td> 
+                <td>
+                    <a asp-action="Editar" asp-controller="Horarios" asp-route-idhorario="@item.idhorario" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Eliminar" asp-controller="Horarios" asp-route-idhorario="@item.idhorario" class="btn btn-danger btn-sm">Eliminar</a>
+
+                </td>
+              </tr>
+            } 
+        </tbody>
+    </table>
+
+
+</div>

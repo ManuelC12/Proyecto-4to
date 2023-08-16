@@ -1,0 +1,45 @@
+﻿@model horario_agendaModel;
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+
+<div class="card col-8">
+    <div class="card-header">
+        Editar apartado
+    </div>
+    <div class="card-body justify-content-center">
+        <form asp-action="Editar" asp-asp-controller="Horarios" method="post">
+            <input asp-for="idhorario" type="hidden" class="from-control"/>
+            <div class="col-md-4 mb-3">
+                <label for="staticEmail2">Identificador de aula</label>
+                <input asp-for="idaula2" type="text" class="form-control" />
+                <span asp-validation-for="idaula2" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="staticEmail2">Mes</label>
+                <input asp-for="dia" type="text" class="form-control" />
+                <span asp-validation-for="dia"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="staticEmail2">Año</label>
+                <input asp-for="mes" type="text" class="form-control" />
+                <span asp-validation-for="mes"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="staticEmail2">Hora</label>
+                <input asp-for="years" type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="staticEmail2">Dia</label>
+                <input asp-for="hora" type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <button type="submit" class="btn btn-primary mb-3 btn-sm">Guardar</button> <br />
+                <a asp-action="Listar" asp-controller="Horarios" class="btn btn-warning btn-sm">Volver a la lista</a>
+            </div>           
+        </form>
+    </div>
+</div>
+

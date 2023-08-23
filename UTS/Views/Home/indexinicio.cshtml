@@ -12,29 +12,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <a class="nav-link" asp-action="Listar" asp-controller="Edificio">Admin</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" asp-action="indexinicio">Inicio</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Edificios
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-action="indexedificio1">Edificio 1</a></li>
-                        <li><a class="dropdown-item" asp-action="indexedificio2">Edificio 2</a></li>
-                        <li><a class="dropdown-item" asp-action="indexedificio3">Edificio 3</a></li>
-                        <li><a class="dropdown-item" asp-action="indexedificio4">Edificio 4</a></li>
-                        <li><a class="dropdown-item" asp-action="indexedificioH">Edificio H</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Aulas
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-action="indexmagna">Aula Magna</a></li>
-                        <li><a class="dropdown-item" asp-action="indexauditorio">Auditorio</a></li>
-                        <li><a class="dropdown-item" asp-action="indexjuntas">Sala de juntas</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Insertar" asp-controller="Horarios">Apartar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="index">Salir</a>

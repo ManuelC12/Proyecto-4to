@@ -11,27 +11,30 @@ namespace UTS.Datos
     {
         public List<InstalacionModel> Lista()
         {
-            //crear una lista vacia
             var oLista = new List<InstalacionModel>();
-            // crear una instancia de la clase conexion
+
             var cn = new Conexion();
-            //utilizar using para establecer la cadena de conexion
+
+            // Utilizar 'using' para establecer la cadena de conexión y garantizar su liberación.
             using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
             {
-                //abrir la conexion
                 conexion.Open();
-                //Comando a ejecutar
+
+                // Crear un comando SQL que ejecutará el procedimiento almacenado "SP_listar_instalaciones" en la base de datos.
                 SqlCommand cmd = new SqlCommand("SP_listar_instalaciones", conexion);
-                //decir el tipo de comando
+
+                // Se ejecuta un procedimiento almacenado
                 cmd.CommandType = CommandType.StoredProcedure;
-                //Leer el resultado de la ejecucion del procedimiento almacenado
+
+                // Leer el resultado de la ejecución del procedimiento almacenado.
                 using (var dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        //una ves se esten leyendo tambien los guardaremos en la lista
+                        // Una vez que se estén leyendo los datos, se guardan en la lista.
                         oLista.Add(new InstalacionModel()
-                        { //se utilizan las propiedades de la clase
+                        {
+                            // Se utilizan las propiedades de la clase para asignar los valores.
                             idaula = Convert.ToInt32(dr["idaula"]),
                             capacidad = Convert.ToInt32(dr["capacidad"]),
                             nombre = dr["nombre"].ToString(),
@@ -43,6 +46,8 @@ namespace UTS.Datos
                     }
                 }
             }
+
+            // Se devuelve la lista de instalaciones.
             return oLista;
         }
 
@@ -54,13 +59,22 @@ namespace UTS.Datos
             using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
             {
                 conexion.Open();
+
+                // Crear un comando SQL que ejecutará el procedimiento almacenado "SP_consulta_instalacion" en la base de datos.
                 SqlCommand cmd = new SqlCommand("SP_consulta_instalacion", conexion);
+
+                // Agregar un parámetro al comando SQL para especificar el ID de la instalación que se desea consultar.
                 cmd.Parameters.AddWithValue("idaula", idaula);
+
+                // Se ejecuta un procedimiento almacenado
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                // Leer el resultado de la ejecución del procedimiento almacenado.
                 using (var dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
+                        // Asignar los valores obtenidos a la instancia de 'InstalacionModel'.
                         oInstalacion.idaula = Convert.ToInt32(dr["idaula"]);
                         oInstalacion.capacidad = Convert.ToInt32(dr["capacidad"]);
                         oInstalacion.nombre = dr["nombre"].ToString();
@@ -68,35 +82,41 @@ namespace UTS.Datos
                         {
                             numedificio = Convert.ToInt32(dr["numedificio1"])
                         };
-
                     }
                 }
             }
+
+            // Se devuelve la información de la instalación consultada.
             return oInstalacion;
         }
 
-
         public bool GuardarInstalacion(InstalacionModel model)
         {
-            //creo una variable boolean
             bool respuesta;
+
             try
             {
                 var cn = new Conexion();
-                //utlizar la cadena para establecer la cadena de conexion
+
+                // Establecer una conexión a la base de datos utilizando la cadena de conexión proporcionada por 'cn.getAulasUTSContext()'.
                 using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
                 {
                     conexion.Open();
+
+                    // Crear un comando SQL que ejecutará el procedimiento almacenado "SP_insertar_instalacion" en la base de datos.
                     SqlCommand cmd = new SqlCommand("SP_insertar_instalacion", conexion);
-                    //enviado un parametro al procedimiento almacenado
+
+                    // Agregar parámetros al comando SQL para especificar los valores de la nueva instalación que se desea insertar.
                     cmd.Parameters.AddWithValue("capacidad", model.capacidad);
                     cmd.Parameters.AddWithValue("nombre", model.nombre);
                     cmd.Parameters.AddWithValue("numedificio1", model.refEdificio.numedificio);
+
+                    // Se ejecuta un procedimiento almacenado
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //ejecutar el procedimiento almacennado
+
                     cmd.ExecuteNonQuery();
                 }
-                //si no ocurre un error la variable respuesta sera true
+
                 respuesta = true;
             }
             catch (Exception e)
@@ -104,64 +124,9 @@ namespace UTS.Datos
                 string error = e.Message;
                 respuesta = false;
             }
+
             return respuesta;
         }
-
-        public bool EditarInstalacion(InstalacionModel model)
-        {
-            //creo una variable boolean
-            bool respuesta;
-            try
-            {
-                var cn = new Conexion();
-                //utlizar la cadena para establecer la cadena de conexion
-                using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
-                {
-                    conexion.Open();
-                    SqlCommand cmd = new SqlCommand("SP_actualizar_instalacion", conexion);
-                    //enviado un parametro al procedimiento almacenado
-                    cmd.Parameters.AddWithValue("idaula", model.idaula);
-                    cmd.Parameters.AddWithValue("capacidad", model.capacidad);
-                    cmd.Parameters.AddWithValue("nombre", model.nombre);
-                    cmd.Parameters.AddWithValue("numedificio1", model.refEdificio.numedificio);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    //ejecutar el procedimiento almacennado
-                    cmd.ExecuteNonQuery();
-                }
-                //si no ocurre un error la variable respuesta sera true
-                respuesta = true;
-            }
-            catch (Exception e)
-            {
-                string error = e.Message;
-                respuesta = false;
-            }
-            return respuesta;
-        }
-
-        public bool EliminarInstalacion(int idaula)
-        {
-            bool respuesta;
-            try
-            {
-                var cn = new Conexion();
-                using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
-                {
-                    conexion.Open();
-                    SqlCommand cmd = new SqlCommand("SP_eliminar_instalacion", conexion);
-                    cmd.Parameters.AddWithValue("idaula", idaula);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.ExecuteNonQuery();
-                }
-                respuesta = true;
-            }
-            catch (Exception e)
-            {
-                string error = e.Message;
-                respuesta = false;
-            }
-            return respuesta;
-        }
-
     }
+
 }

@@ -11,27 +11,29 @@ namespace UTS.Datos
     {
         public List<EdificioModel> Lista()
         {
-            //crear una lista vacia
             var oLista = new List<EdificioModel>();
-            // crear una instancia de la clase conexion
+
             var cn = new Conexion();
-            //utilizar using para establecer la cadena de conexion
+
+            // Establecemos una conexión a la base de datos utilizando la cadena de conexión proporcionada por 'cn.getAulasUTSContext()'.
             using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
             {
-                //abrir la conexion
                 conexion.Open();
-                //Comando a ejecutar
+
+                // Creamos un nuevo comando SQL que ejecutará un procedimiento almacenado llamado "SP_listar_edificios" en la base de datos.
                 SqlCommand cmd = new SqlCommand("SP_listar_edificios", conexion);
-                //decir el tipo de comando
+
+                // Se ejecuta un procedimiento almacenado
                 cmd.CommandType = CommandType.StoredProcedure;
-                //Leer el resultado de la ejecucion del procedimiento almacenado
+
+                // Utilizamos un lector de datos (DataReader) para obtener los resultados de la consulta almacenada en 'dr'.
                 using (var dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        //una ves se esten leyendo tambien los guardaremos en la lista
+                        // Creamos una instancia de 'EdificioModel' y la agregamos a la lista 'oLista' con los valores recuperados del lector de datos.
                         oLista.Add(new EdificioModel()
-                        { //se utilizan las propiedades de la clase
+                        {
                             numedificio = Convert.ToInt32(dr["numedificio"]),
                             cantaula = Convert.ToInt32(dr["cantaula"]),
                             encargado = dr["encargado"].ToString()
@@ -39,56 +41,75 @@ namespace UTS.Datos
                     }
                 }
             }
+
+            // Se retorna la lista de edificios
             return oLista;
         }
 
         public EdificioModel ConsultarEdificio(int numedificio)
         {
             var oEdificio = new EdificioModel();
+
             var cn = new Conexion();
 
+            // Establecemos una conexión a la base de datos utilizando la cadena de conexión proporcionada por 'cn.getAulasUTSContext()'.
             using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
             {
                 conexion.Open();
+
+                // Creamos un nuevo comando SQL que ejecutará un procedimiento almacenado llamado "SP_consultar_edificio" en la base de datos.
                 SqlCommand cmd = new SqlCommand("SP_consultar_edificio", conexion);
+
+                // Agregamos un parámetro al comando SQL para especificar el número de edificio que deseamos consultar.
                 cmd.Parameters.AddWithValue("numedificio", numedificio);
+
+                // Se ejecuta un procedimiento almacenado
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                // Utilizamos un lector de datos (DataReader) para obtener los resultados de la consulta almacenada en 'dr'.
                 using (var dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
+                        // Asignamos los valores recuperados del lector de datos a la instancia 'oEdificio' de la clase 'EdificioModel'.
                         oEdificio.numedificio = Convert.ToInt32(dr["numedificio"]);
                         oEdificio.cantaula = Convert.ToInt32(dr["cantaula"]);
                         oEdificio.encargado = dr["encargado"].ToString();
-
                     }
                 }
             }
+
+            // Devolvemos la información del edificio.
             return oEdificio;
         }
 
-
         public bool GuardarEdificio(EdificioModel model)
         {
-            //creo una variable boolean
             bool respuesta;
+
             try
             {
                 var cn = new Conexion();
-                //utlizar la cadena para establecer la cadena de conexion
+
+                // Establecemos una conexión a la base de datos utilizando la cadena de conexión proporcionada por 'cn.getAulasUTSContext()'.
                 using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
                 {
                     conexion.Open();
+
+                    // Creamos un nuevo comando SQL que ejecutará un procedimiento almacenado llamado "SP_insertar_edificios" en la base de datos.
                     SqlCommand cmd = new SqlCommand("SP_insertar_edificios", conexion);
-                    //enviado un parametro al procedimiento almacenado
+
+                    // Agregamos parámetros al comando SQL con los valores obtenidos de la instancia 'model' de la clase 'EdificioModel'.
                     cmd.Parameters.AddWithValue("numedificio", model.numedificio);
                     cmd.Parameters.AddWithValue("cantaula", model.cantaula);
                     cmd.Parameters.AddWithValue("encargado", model.encargado);
+
+                    // Se ejecuta un procedimiento almacenado
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //ejecutar el procedimiento almacennado
+
                     cmd.ExecuteNonQuery();
                 }
-                //si no ocurre un error la variable respuesta sera true
+
                 respuesta = true;
             }
             catch (Exception e)
@@ -96,30 +117,37 @@ namespace UTS.Datos
                 string error = e.Message;
                 respuesta = false;
             }
+
             return respuesta;
         }
 
         public bool EditarEdificio(EdificioModel model)
         {
-            //creo una variable boolean
             bool respuesta;
+
             try
             {
                 var cn = new Conexion();
-                //utlizar la cadena para establecer la cadena de conexion
+
+                // Establecemos una conexión a la base de datos utilizando la cadena de conexión proporcionada por 'cn.getAulasUTSContext()'.
                 using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
                 {
                     conexion.Open();
+
+                    // Creamos un nuevo comando SQL que ejecutará un procedimiento almacenado llamado "SP_actualizar_edificio" en la base de datos.
                     SqlCommand cmd = new SqlCommand("SP_actualizar_edificio", conexion);
-                    //enviado un parametro al procedimiento almacenado
+
+                    // Agregamos parámetros al comando SQL con los valores obtenidos de la instancia 'model' de la clase 'EdificioModel'.
                     cmd.Parameters.AddWithValue("numedificio", model.numedificio);
                     cmd.Parameters.AddWithValue("cantaula", model.cantaula);
                     cmd.Parameters.AddWithValue("encargado", model.encargado);
+
+                    // Se ejecuta un porcedimiento almacenado
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //ejecutar el procedimiento almacennado
+
                     cmd.ExecuteNonQuery();
                 }
-                //si no ocurre un error la variable respuesta sera true
+
                 respuesta = true;
             }
             catch (Exception e)
@@ -127,23 +155,35 @@ namespace UTS.Datos
                 string error = e.Message;
                 respuesta = false;
             }
+
             return respuesta;
         }
 
         public bool EliminarEdificio(int numedificio)
         {
             bool respuesta;
+
             try
             {
                 var cn = new Conexion();
+
+                // Establecemos una conexión a la base de datos utilizando la cadena de conexión proporcionada por 'cn.getAulasUTSContext()'.
                 using (var conexion = new SqlConnection(cn.getAulasUTSContext()))
                 {
                     conexion.Open();
+
+                    // Creamos un nuevo comando SQL que ejecutará un procedimiento almacenado llamado "SP_eliminar_edificio" en la base de datos.
                     SqlCommand cmd = new SqlCommand("SP_eliminar_edificio", conexion);
+
+                    // Agregamos un parámetro al comando SQL para especificar el número de edificio que deseamos eliminar.
                     cmd.Parameters.AddWithValue("numedificio", numedificio);
+
+                    // Se ejecuta un procedimiento almacenado
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.ExecuteNonQuery();
                 }
+
                 respuesta = true;
             }
             catch (Exception e)
@@ -151,10 +191,11 @@ namespace UTS.Datos
                 string error = e.Message;
                 respuesta = false;
             }
+
             return respuesta;
         }
-
     }
+
 
 }
 
